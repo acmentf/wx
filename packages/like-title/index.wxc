@@ -1,0 +1,50 @@
+<template>
+  <view class="like-title">
+    <view class="like-wrap">
+      <view class="title">
+        {{title}}
+      </view>
+      <view class="handle-text">
+         {{handleTex}}
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+export default {
+  properties:{
+    title:{
+      type: String,
+      value: '',
+    },
+    handleTex:{
+      type: String,
+      value: '',
+    }
+  },
+  data: {
+  },
+  methods: {
+    handleTap () {
+      console.log(this.data.msg)
+    }
+  }
+}
+</script>
+<style lang="less">
+  .like-title{
+    border-bottom:2px solid #d81e06;
+    .like-wrap{
+      display: flex;
+      &>view{
+        flex: 1;
+        font-size:32rpx;
+        &.handle-text{
+          text-align: right;
+          font-size:24rpx;
+          color:#666;
+        }
+      }
+    }
+  }
+</style>

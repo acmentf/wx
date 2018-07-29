@@ -1,0 +1,10 @@
+<view class="like-title">
+  <view class="like-wrap">
+    <view class="title">
+      {{title}}
+    </view>
+    <view class="handle-text">
+      {{handleTex}}
+    </view>
+  </view>
+</view>

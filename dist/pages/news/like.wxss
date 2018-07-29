@@ -1,0 +1,52 @@
+/* 1像素解决方案 */
+/*
+ * 清除1px
+ */
+/*
+ * 清除浮动
+ */
+/*
+ * mobile
+ */
+/*
+ * 1px
+ */
+/*
+ * text
+ */
+/* 垂直居中 */
+/* 水平居中 */
+/* 水平垂直居中 */
+/* 超出部分出省略号 */
+/* 多行文本超出部分省略号 */
+#like {
+  padding: 0 30rpx;
+}
+#like > view {
+  padding-top: 20rpx;
+  min-height: 300rpx;
+}
+#like > view .list {
+  padding: 20rpx 0 40rpx 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+#like > view .list > span {
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  text-align: center;
+  margin: 10rpx 16rpx;
+  padding: 10rpx 20rpx;
+}
+#like > view .list.my-list span {
+  border: 1px solid #ccc;
+  color: #ccc;
+}
+#like > view .list.all-list span {
+  border: 1px solid #ccc;
+  color: #ccc;
+}
+#like > view .list.all-list span.selected {
+  color: #d81e06;
+  border: 1px solid #d81e06;
+}

@@ -1,0 +1,29 @@
+<view id="detail">
+  <import src="../../wxParse/wxParse.wxml" />
+  <view class="detail-title">{{article.title}}</view>
+  <view class="detail-info" wx:if="{{article.title}}">
+    <view class="news_source">{{article.tag}}</view>
+    <view class="news_date">{{article.date}}</view>
+    <view class="news-count">
+      <view class="news-pl">
+        <i class="iconfont icon-pl"></i>
+        <span>{{article.comment}}
+          <span>
+          </span>
+        </span>
+      </view>
+      <view class="news-dz">
+        <i class="iconfont icon-dz"></i>
+        <span>{{article.praise}}
+          <span>
+          </span>
+        </span>
+      </view>
+    </view>
+  </view>
+  <view class="news_content">
+    <block class="wxParse">
+      <template is="wxParse" data="{{wxParseData:content.nodes}}" />
+    </block>
+  </view>
+</view>

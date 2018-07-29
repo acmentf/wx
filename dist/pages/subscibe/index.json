@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "sub-item": "../../packages/sub-item/index"
+  },
+  "navigationBarTitleText": "News Reader",
+  "backgroundColor": "#F4F4F4",
+  "navigationBarTextStyle": "black"
+}

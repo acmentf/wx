@@ -1,0 +1,6 @@
+<view class="user">
+  <view class="user-pic">
+    <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
+  </view>
+  <text>{{userInfo.nickName}}</text>
+</view>

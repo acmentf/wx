@@ -1,0 +1,20 @@
+<view id="like">
+  <view class="my-block">
+    <like-title title="我的频道" handleTex="点击删除频道" _pid="{{_pid}}"></like-title>
+    <view class="list my-list">
+      <view class="list all-list">
+        <span wx:for="{{allCategorys}}" wx:key="{{item.lanmu_id}}" wx:if="{{item.selected}}" bindtap="deteleItem" data-index="{{index}}">{{item.lanmu_name}}</span>
+      </view>
+    </view>
+  </view>
+  <view class="list all-block">
+    <like-title title="全部频道" handleTex="点击增加频道" _pid="{{_pid}}"></like-title>
+    <view class="list all-list">
+      <span wx:for="{{allCategorys}}" wx:key="{{item.lanmu_id}}" class="{{item.selected?'selected':''}}" bindtap="addItem" data-index="{{index}}">{{item.lanmu_name}}</span>
+    </view>
+  </view>
+  <view class="btns">
+    <button type="primary" bindtap="selectAll">全部选择</button>
+    <button bindtap="backIndex">返回首页</button>
+  </view>
+</view>

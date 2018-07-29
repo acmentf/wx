@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/news/news",
+    "pages/news/like",
+    "pages/news/detail",
+    "pages/found/index",
+    "pages/subscibe/index",
+    "pages/subscibe/subList",
+    "pages/user/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#efefef",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "TouchUI",
+    "navigationBarTextStyle": "black"
+  },
+  "networkTimeout": {
+    "request": 10000
+  },
+  "theme": {
+    "theme-color": "#39f"
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#d81e06",
+    "borderStyle": "#ddd",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/news/news",
+        "iconPath": "image/icon-news.png",
+        "selectedIconPath": "image/icon-news-a.png",
+        "text": "新闻"
+      },
+      {
+        "pagePath": "pages/subscibe/index",
+        "iconPath": "image/icon-sub.png",
+        "selectedIconPath": "image/icon-sub-a.png",
+        "text": "订阅"
+      },
+      {
+        "pagePath": "pages/found/index",
+        "iconPath": "image/icon-like.png",
+        "selectedIconPath": "image/icon-like-a.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "iconPath": "image/icon-user.png",
+        "selectedIconPath": "image/icon-user-a.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

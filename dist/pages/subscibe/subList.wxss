@@ -1,0 +1,43 @@
+/* 1像素解决方案 */
+/*
+ * 清除1px
+ */
+/*
+ * 清除浮动
+ */
+/*
+ * mobile
+ */
+/*
+ * 1px
+ */
+/*
+ * text
+ */
+/* 垂直居中 */
+/* 水平居中 */
+/* 水平垂直居中 */
+/* 超出部分出省略号 */
+/* 多行文本超出部分省略号 */
+.sub-list .sub-header {
+  background-color: #d81e06;
+  background: linear-gradient(128deg, #1296DB 26%, #D4237A 71%, #D81E06 100%);
+  padding: 20rpx 20rpx;
+  color: #fff;
+  text-align: center;
+  font-size: 24rpx;
+}
+.sub-list .sub-header .sub-pic {
+  height: 100rpx;
+  width: 100rpx;
+  margin: 0 auto;
+}
+.sub-list .sub-header .sub-pic image {
+  border-radius: 50%;
+}
+.sub-list .sub-header .name {
+  font-size: 28rpx;
+}
+.sub-list .sub-header text {
+  padding: 0 20rpx;
+}

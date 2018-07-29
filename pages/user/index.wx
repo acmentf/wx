@@ -1,0 +1,85 @@
+<template>
+  <view class="user">
+    <view class="user-pic">
+      <image src={{userInfo.avatarUrl}} mode="aspectFit"></image>
+    </view>
+    <text>{{userInfo.nickName}}</text>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+
+export default {
+  config: {
+    usingComponents: {
+     
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+ 
+  data :{
+    userInfo:{}
+  },
+  onLoad(){
+   
+  },
+  onShow(){
+    // this.getUserInfo().then(res=>{
+    //   console.log(res)
+    // })
+   let userInfo =  this._getUserInfo();
+   console.log(userInfo)
+  },
+  login(){
+    return new Promise((resolve,reject) => wx.login({
+      success:resolve,
+      fail:reject
+    }))
+  },
+  getUserInfo(){
+    return this.login().then(res => new Promise((resolve,reject) => 
+      wx.getUserInfo({
+        success:resolve,
+        fail:reject
+      })
+    ))
+  },
+  _getUserInfo(){
+    var that = this;
+    wx.login({
+      success(){
+         wx.getUserInfo({
+           success(res){
+             that.setData({
+               userInfo: res.userInfo
+             })
+           }
+        })
+      }
+    })
+  }
+};
+</script>
+
+<style lang="less">
+  .user{
+    text-align: center;
+    padding-top:100rpx;
+    .user-pic{
+      width:150rpx;
+      height: 150rpx;
+      margin: 0 auto;
+      
+      image{
+        border-radius: 50%;
+      }
+    }
+    text{
+      font-size:38rpx;
+      color: #333;
+    }
+  }
+</style>

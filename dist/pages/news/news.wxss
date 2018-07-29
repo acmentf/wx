@@ -1,0 +1,80 @@
+/* 1像素解决方案 */
+/*
+ * 清除1px
+ */
+/*
+ * 清除浮动
+ */
+/*
+ * mobile
+ */
+/*
+ * 1px
+ */
+/*
+ * text
+ */
+/* 垂直居中 */
+/* 水平居中 */
+/* 水平垂直居中 */
+/* 超出部分出省略号 */
+/* 多行文本超出部分省略号 */
+#news .tabs-wrap {
+  display: flex;
+}
+#news .tabs-wrap .tabs-list {
+  flex: 1;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+#news .tabs-wrap .tabs-btn {
+  width: 10%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
+#news .tabs-wrap .tabs-btn icon {
+  font-size: 45rpx;
+  color: aqua;
+}
+#news .swiper-container {
+  position: relative;
+}
+#news .swiper-container .swiper {
+  height: 10rem;
+}
+#news .swiper-container .swiper .img {
+  width: 100%;
+  height: 100%;
+}
+#news .swiper-container .swiper .banner-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  color: #fff;
+}
+#news .swiper-container .swiper .banner-footer .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+}
+#news .swiper-container .swiper .banner-footer .title {
+  position: relative;
+  z-index: 1111;
+  padding-left: 20rpx;
+  width: 75%;
+  height: 60rpx;
+}
+#news .swiper-container .swiper .banner-footer .current-num {
+  position: absolute;
+  right: 30rpx;
+  z-index: 11111;
+  top: 0;
+}

@@ -1,0 +1,15 @@
+<view class="sub-item">
+  <view class="sub-title" bindtap="subDetail">
+    <view class="image">
+      <image src="{{subItem.ding_pic}}" mode="aspectFill" />
+    </view>
+    <text class="middle">{{subItem.ding_name}}</text>
+    <i class="iconfont icon-r"></i>
+  </view>
+  <view class="sub-content">
+    <view class="sub-list">
+      <news-item newInfo="{{subItem.ding_news[0]}}" _pid="{{_pid}}"></news-item>
+    </view>
+  </view>
+
+</view>

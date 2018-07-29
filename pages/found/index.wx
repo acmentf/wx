@@ -1,0 +1,41 @@
+<template>
+  <view class="found">
+    <text>正在完善该功能，敬请期待....</text>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+
+export default {
+  config: {
+    usingComponents: {
+     
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+ 
+  data :{
+    
+  },
+  onLoad(){
+   
+  },
+  onShow(){
+   
+  }
+};
+</script>
+
+<style lang="less">
+  .found{
+    padding-top:200rpx;
+    text-align: center;
+    text{
+      color:#333;
+      font-size:32rpx;
+    }
+  }
+</style>

@@ -1,0 +1,121 @@
+  
+<template>
+  <view id="detail">
+    <import src="../../wxParse/wxParse.wxml"/>
+    <view class="detail-title" >{{article.title}}</view>
+    <view class="detail-info" wx:if={{article.title}}>
+      <view class="news_source">{{article.tag}}</view>
+      <view class="news_date">{{article.date}}</view>
+      <view class="news-count">
+        <view class="news-pl">
+          <i class="iconfont icon-pl"></i>
+          <span>{{article.comment}}<span>
+        </view>
+       <view class="news-dz">
+          <i class="iconfont icon-dz"></i>
+          <span>{{article.praise}}<span>
+        </view>
+      </view>
+    </view>
+    <view class="news_content">
+      <block class="wxParse">
+        <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+      </block>
+    </view>
+  </view>
+</template>
+<script>
+const app = getApp();
+var WxParse = require('../../wxParse/wxParse.js') 
+// 设置缓存
+const cache = Object.create(null) 
+export default {
+  config: {
+    usingComponents: {
+    
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+ 
+  data :{
+    wxParseData:[],
+    article:{},
+  },
+  onLoad(options){
+    // 获取参数
+   
+    let chid = options.chid
+    let news_id = options.news_id
+    //缓存出来
+    this.getDetailData(chid,news_id)
+
+   
+  },
+  onShow(){
+  },
+  getDetailData(chid,news_id){
+  
+    app.post('v2/news/detail.html',{news_id,chid,"method":"POST"}).then(res=>{
+      console.log(res)
+      if (res.data){
+        var data = res.data.newsDetail
+        var {news_title:title,news_date:date,news_praise_count:praise,news_comment_count:comment,news_source:tag} = data
+        var content = data.news_content;
+        WxParse.wxParse('content', 'html', content, this)
+        this.setData({
+            article:{ title,date,praise,comment,tag}
+        })
+      }else{
+        var content  = `<div class="empty">糟糕！页面找不到了。。。</div>`;
+        WxParse.wxParse('content', 'html', content, this)
+      }
+    })
+  }
+};
+</script>
+
+<style lang="less">
+  #detail{
+    padding:20rpx;
+    .detail-title{
+      text-align: center;
+      font-size:32rpx;
+    }
+    .detail-info{
+      display: flex;
+      font-size:22rpx;
+      padding-bottom:20rpx;
+      .news_source,.news_date{
+        .mix-flex-y-center()
+      }
+      .news_date{
+        margin-left:30rpx;
+      }
+      .news-count{
+         flex:1;
+         text-align: right;
+         &>view{
+           text-align: right;
+           display: inline-block;
+           padding-left:20rpx;
+           
+         }
+      }
+    }
+    .news_content{
+      .wxParse-p{
+        image{
+          height:300rpx;
+          padding:0 20rpx;
+        }
+      }
+      .empty{
+        text-align: center;
+        font-size:40rpx;
+        padding-top:50rpx;
+      }
+    }
+  }
+</style>

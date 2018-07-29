@@ -1,0 +1,194 @@
+<template>
+  <view class="news-item" bindtap="detail">
+     <block wx:if="{{newInfo.news_style == 1}}">
+       <view class="item-wrap item-wrap-4">
+        <view class="item-top">
+          <view class="item-title">{{newInfo.news_title}}</view>
+        </view>
+        <view class="item-middle">
+            <image src="{{newInfo.news_icon[0]}}" class="img" mode="aspectFill"/>
+        </view>
+        <view class="item-bottom">
+          <view class="item-info">
+             <view class="item-time">
+               <span class="remark" wx:if={{newInfo.news_remark}}>{{newInfo.news_remark}}</span>
+               {{newInfo.news_date}}
+             </view>
+             <view class="item-handle">
+               <view style="margin-right:20rpx;"><icon class="iconfont icon-pl"></icon>{{newInfo.news_comment_count}}</view>
+               <view><icon class="iconfont icon-dz"></icon>{{newInfo.news_praise_count < 100? newInfo.news_praise_count : '99+' }}</view>
+              </view>
+           </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{newInfo.news_style == 2}}">
+       <view class="item-wrap item-wrap-2">
+         <view class="item-left">
+             <image src="{{newInfo.news_icon[0]}}" class="img" mode="aspectFill"/>
+         </view>
+         <view class="item-right">
+           <view class="item-title">{{newInfo.news_title}}</view>
+           <view class="item-info">
+             <view class="item-time">
+               <span class="remark" wx:if={{newInfo.news_remark}}>{{newInfo.news_remark}}</span>
+               {{newInfo.news_date || newInfo.news_datetime}}
+             </view>
+             <view class="item-handle">
+               <view style="margin-right:20rpx;"><icon class="iconfont icon-pl"></icon>{{newInfo.news_comment_count}}</view>
+               <view><icon class="iconfont icon-dz"></icon>{{newInfo.news_praise_count < 100? newInfo.news_praise_count : '99+' }}</view>
+              </view>
+           </view>
+         </view>
+       </view>
+    </block>
+    <block wx:elif="{{newInfo.news_style == 3}}">
+       <view class="item-wrap item-wrap-4">
+        <view class="item-top">
+          <view class="item-title">{{newInfo.news_title}}</view>
+        </view>
+        <view class="item-middle">
+          <view class="image-list">
+            <view wx:for={{newInfo.news_icon}} wx:key={{index}}>
+              <image src="{{item}}" class="img"/>
+            </view>
+          </view>
+        </view>
+        <view class="item-bottom">
+          <view class="item-info">
+             <view class="item-time">
+               <span class="remark" wx:if={{newInfo.news_remark}}>{{newInfo.news_remark}}</span>
+               {{newInfo.news_date}}
+             </view>
+             <view class="item-handle">
+               <view style="margin-right:20rpx;"><icon class="iconfont icon-pl"></icon>{{newInfo.news_comment_count}}</view>
+               <view><icon class="iconfont icon-dz"></icon>{{newInfo.news_praise_count < 100? newInfo.news_praise_count : '99+' }}</view>
+              </view>
+           </view>
+        </view>
+      </view>
+    </block>
+    <block wx:elif="{{newInfo.news_style == 4}}">
+      <view class="item-wrap item-wrap-4">
+        <view class="item-top">
+          <view class="item-title">{{newInfo.news_title}}</view>
+        </view>
+        <view class="item-middle">
+            <image src="{{newInfo.news_icon[0]}}" class="img" mode="aspectFill"/>
+        </view>
+        <view class="item-bottom">
+          <view class="item-info">
+             <view class="item-time">
+               <span class="remark" wx:if={{newInfo.news_remark}}>{{newInfo.news_remark}}</span>
+               {{newInfo.news_date}}
+             </view>
+             <view class="item-handle">
+               <view style="margin-right:20rpx;"><icon class="iconfont icon-pl"></icon>{{newInfo.news_comment_count}}</view>
+               <view><icon class="iconfont icon-dz"></icon>{{newInfo.news_praise_count < 100? newInfo.news_praise_count : '99+' }}</view>
+              </view>
+           </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>
+<script>
+export default {
+  properties:{
+    newInfo:{
+      type: Object,
+      value: {},
+    }
+  },
+  data: {
+  },
+  methods: {
+   detail(){
+    let chid = this.data.newInfo.news_column_id
+    let news_id = this.data.newInfo.news_id
+    wx.navigateTo({
+      url:'/pages/news/detail?chid='+chid+'&news_id='+news_id
+    })
+   } 
+  }
+}
+</script>
+<style lang="less">
+  .news-item{
+    .item-wrap{
+      font-size:24rpx;
+      padding:30rpx;
+      border-bottom:1px solid #eee;
+      .remark{
+        color:#d81e06;
+        margin-right:10rpx;
+        padding: 2rpx 8rpx;
+        border-left:1rpx solid #d81e06;
+        border-right:1rpx solid #d81e06;
+        font-size:22rpx;
+      }
+      .item-info{
+        display: flex;
+        view{
+          &.item-time{
+            text-align: left;
+            flex:1;
+            line-height:66rpx;
+            color:#999;
+          }
+          &.item-handle{
+            width:150rpx;
+            text-align: right;
+            &>view{
+              display: inline-block;
+              color:#999;
+            }
+          }
+        }
+      }
+      &.item-wrap-2{
+        display: flex;
+        .item-left{
+          width:160rpx;
+          height:120rpx;
+        }
+        .item-right{
+          padding-left:20rpx;
+          line-height:56rpx;
+          flex:1;
+          .item-title{
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            width: 510rpx;
+          }
+        }
+      }
+      &.item-wrap-4{
+        padding-bottom:15rpx;
+        .item-middle{
+          image{
+            border-radius: 10rpx;
+            margin-top:12rpx;
+            height:4rem;
+            vertical-align: center;
+          }
+          &>.image-list{
+            display: flex;
+            padding-bottom: 20rpx;
+            &>view{
+              flex:1;
+              padding:10rpx;
+            }
+          }
+        }
+        .item-bottom{
+          .item-info{
+            line-height: 40rpx;
+          }
+        }
+      }
+    }
+  }
+  @import './static/styles/icon.less';
+</style>

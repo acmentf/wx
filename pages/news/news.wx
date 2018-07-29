@@ -1,0 +1,195 @@
+<template>
+  <view id="news">
+    <view class="tabs-wrap">
+      <view class="tabs-list" style="padding-left:30rpx;">
+        <ui-tabs index="{{ current }}" bounce="{{false}}"  >
+          <ui-tab wx:for={{categorysList}} 
+          wx:key={{item.lanmu_id}} data-chid={{item.lanmu_id}} 
+          bindtap="tabChange" wx:if={{item.selected}}
+          >{{item.lanmu_name}}</ui-tab>
+        </ui-tabs>
+      </view>
+      <view class="tabs-btn">
+        <icon class="iconfont icon-cate" bindtap="likeSelect"></icon>
+      </view>
+    </view>
+    <div>
+    </div>
+    <!-- 图片轮播 -->
+    <view class="swiper-container" wx:if={{newsBanner.length}}>
+      <swiper circular autoplay interval="5000" duration="300"  class="swiper">
+          <block wx:for="{{newsBanner}}" wx:key="unique">
+              <swiper-item>
+                  <image src="{{item.news_icon[0]}}" class="img" mode="aspectFill"></image>
+                  <view class="banner-footer">
+                    <view class="bg"></view>
+                    <view class="title">{{item.news_title}}</view>
+                    <view class="current-num">[{{index+1}}/{{newsBanner.length}}]</view>
+                  </view>
+              </swiper-item>
+          </block>
+      </swiper>
+    </view>
+    <!-- 新闻列表 -->
+    <view class="news-list">
+      <view wx:for={{newsList}}  wx:key={{item.info_id}}>
+        <news-item newInfo={{item}}></news-item>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+//数据缓存
+const cache = Object.create(null) 
+
+export default {
+  config: {
+    usingComponents: {
+      'news-item': '../../packages/news-item'
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+  _isLoading:false,
+  data :{
+    newsBanner:[],
+    current:0,
+    categorysList:[],
+    newsList:[],
+    currentTab: 0
+  },
+  onReady(){
+    this.fetchNewsData();
+  },
+  onShow(){
+    app.utils.getCategorys().then(res=>{
+       this.setData({
+        categorysList: res
+       })
+    })
+  },
+  // 到达底部请求下一页数据
+  onReachBottom(){
+    this.fetchNewsData(this.data.currentTab,1)
+  },
+  // 获取数据
+  fetchNewsData(chid=0,type = 0){ // 判断是更新下一页或初次加载
+    //新增数据
+    if (!cache[chid]) {
+      cache[chid] = {slides:[],news:[],page:0,time:Date.now()}
+    }
+    var info = cache[chid];
+    //获取下一页
+    if(type){
+      //数据加载中 无法翻页
+      if (this._isLoading){
+        return false;
+      }
+      info.page +=1;
+    } else {
+      // 直接从缓存中取出
+      if(info.news.length){
+          this.setData({
+              newsBanner:info.slides,
+              newsList:info.news
+          })
+          return false
+      }
+    }
+    //设置开关
+    this._isLoading = true
+    app.post('v2/news/list.html',{"chid":chid,"page":info.page,"method":"POST"}).then(res=>{
+        this._isLoading = false;
+        info.slides = res.data.newsBanner ? res.data.newsBanner : [];
+        info.news.push(...res.data.newsList);
+         this.setData({
+            newsBanner:info.slides,
+            newsList:info.news
+         })
+    })
+  },
+  tabChange(data){
+    let chid = data.target.dataset.chid
+    if(this.data.currentTab === chid){
+       return false
+     }
+    this.setData({ currentTab:chid })
+    this.fetchNewsData(chid,0)
+  },
+  // 跳转喜好选择页面
+  likeSelect(){
+    wx.navigateTo({
+      url:'/pages/news/like'
+    })
+  }
+};
+</script>
+
+<style lang="less">
+  #news{
+    .tabs-wrap{
+      display: flex;
+      .tabs-list{
+        flex:1;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+      }
+      .tabs-btn{
+        width:10%;
+        height:100rpx;
+        line-height: 100rpx;
+        text-align: center;
+        icon{
+          font-size:45rpx;
+          color:aqua;
+        }
+      }
+    }
+    // 自定义小圆点
+      .swiper-container{
+        position: relative;
+        .swiper{
+          height: 10rem;
+          .img{
+            width: 100%;
+            height: 100%;
+          }
+          .banner-footer{
+            position: absolute;
+            bottom: 0;
+            left:0;
+            width: 100%;
+            height:60rpx;
+            line-height: 60rpx;
+            color:#fff;
+            .bg{
+              position: absolute;
+              width: 100%;
+              height:100%;
+              background:rgba(0,0,0,.5);
+              top:0;
+              left:0;
+            }
+            .title{
+              position: relative;
+              z-index: 1111;
+              padding-left:20rpx;
+              width:75%;
+              height:60rpx;
+            }
+            .current-num{
+              position: absolute;
+              right:30rpx;
+              z-index: 11111;
+              top:0;
+            }
+          }
+        }
+       
+      }
+  }
+</style>

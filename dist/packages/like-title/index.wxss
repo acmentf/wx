@@ -1,0 +1,15 @@
+.like-title {
+  border-bottom: 2px solid #d81e06;
+}
+.like-title .like-wrap {
+  display: flex;
+}
+.like-title .like-wrap > view {
+  flex: 1;
+  font-size: 32rpx;
+}
+.like-title .like-wrap > view.handle-text {
+  text-align: right;
+  font-size: 24rpx;
+  color: #666;
+}

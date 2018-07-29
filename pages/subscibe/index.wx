@@ -1,0 +1,52 @@
+<template>
+  <view>
+    <view wx:for={{subList}} wx:key={{index}}>
+       <sub-item subItem={{item}}></sub-item>
+    </view>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+const cache = Object.create(null);
+export default {
+  config: {
+    usingComponents: {
+      'sub-item': '../../packages/sub-item'
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+ 
+  data :{
+    subList:[]
+  },
+  onLoad(){
+   
+  },
+  onShow(){
+    this.getSubList();
+  },
+  //获取订阅列表
+  getSubList(){
+    if (!cache['subList']) {
+      app.get('v2/ding/good.html').then(res=>{
+        cache['subList'] = res.data.dingList;
+        this.setData({
+          subList: res.data.dingList
+        })
+      })
+    }else {
+      this.setData({
+        subList: cache['subList']
+      })
+    }
+   
+  }
+};
+</script>
+
+<style lang="less">
+
+</style>

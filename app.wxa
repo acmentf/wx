@@ -1,0 +1,162 @@
+<template>
+  <view>
+    <page></page>
+  </view>
+</template>
+
+<script>
+
+  import system from './static/utils/system'
+  import utils from './static/utils/utils.js'
+  export default {
+    config: {
+      usingComponents: {
+      },
+      pages: [
+        'pages/news/news',
+        'pages/news/like',
+        'pages/news/detail',
+        'pages/found/index',
+        'pages/subscibe/index',
+        'pages/subscibe/subList',
+        'pages/user/index'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        backgroundColor: '#efefef',
+        navigationBarBackgroundColor: '#ffffff',
+        navigationBarTitleText: 'TouchUI',
+        navigationBarTextStyle: 'black'
+      },
+      networkTimeout: {
+        request: 10000
+      },
+      theme: {
+        'theme-color': '#39f'
+      },
+      "tabBar": {
+        "color": "#333",
+        "selectedColor": "#d81e06",
+        "borderStyle": "#ddd",
+        "backgroundColor": "#ffffff",
+        "list": [{
+            "pagePath": "pages/news/news",
+            "iconPath": "image/icon-news.png",
+            "selectedIconPath": "image/icon-news-a.png",
+            "text": "新闻"
+        }, {
+            "pagePath": "pages/subscibe/index",
+            "iconPath": "image/icon-sub.png",
+            "selectedIconPath": "image/icon-sub-a.png",
+            "text": "订阅"
+        }, {
+            "pagePath": "pages/found/index",
+            "iconPath": "image/icon-like.png",
+            "selectedIconPath": "image/icon-like-a.png",
+            "text": "发现"
+        }, {
+            "pagePath": "pages/user/index",
+            "iconPath": "image/icon-user.png",
+            "selectedIconPath": "image/icon-user-a.png",
+            "text": "我的"
+        }]
+      }
+    },
+    getUserInfo(){
+     return new Promise((resolve,reject) => wx.login({
+        success:resolve,
+        fail:reject
+     }))
+    },
+    globalData:{
+      userInfo:null,
+      categoryChanged:true
+    },
+    onLaunch () { 
+      system.attachInfo()
+    },
+    onShow () { },
+    onHide () { },
+    post(url,data){
+      return new Promise((resolve,reject)=>{
+        wx.request({
+          url: 'http://wx.diggid.cn/coverHttps.php?url='+url,
+          data: Object.assign({},{method:'POST'},data),
+          header: {
+              'content-type': 'application/json' // 默认值
+          },
+          method:'POSt',
+          success(res){
+            if(!res.code) {
+              resolve(res)
+            }
+          },
+          fail(res){
+            reject(res.message)
+          }
+        })
+      })
+    },
+    get(url,data){
+       return new Promise((resolve,reject)=>{
+        wx.request({
+          url: 'http://wx.diggid.cn/coverHttps.php?url='+url,
+          data: Object.assign({},{method:'GET'},data),
+          header: {
+              'content-type': 'application/json' // 默认值
+          },
+          method:'GET',
+          success(res){
+            if(!res.code) {
+              resolve(res)
+            }
+          },
+          fail(res){
+            reject(res.message)
+          }
+        })
+      })
+    },
+    convertHtmlToText: function convertHtmlToText(inputText) {
+      var returnText = "" + inputText;
+      returnText = returnText.replace(/<\/div>/ig, '\r\n');
+      returnText = returnText.replace(/<\/li>/ig, '\r\n');
+      returnText = returnText.replace(/<li>/ig, '  *  ');
+      returnText = returnText.replace(/<\/ul>/ig, '\r\n');
+      //-- remove BR tags and replace them with line break
+      returnText = returnText.replace(/<br\s*[\/]?>/gi, "\r\n");
+
+      //-- remove P and A tags but preserve what's inside of them
+      returnText = returnText.replace(/<p.*?>/gi, "\r\n");
+      returnText = returnText.replace(/<a.*href="(.*?)".*>(.*?)<\/a>/gi, " $2 ($1)");
+
+      //-- remove all inside SCRIPT and STYLE tags
+      returnText = returnText.replace(/<script.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/script>/gi, "");
+      returnText = returnText.replace(/<style.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/style>/gi, "");
+      //-- remove all else
+      returnText = returnText.replace(/<(?:.|\s)*?>/g, "");
+
+      //-- get rid of more than 2 multiple line breaks:
+      returnText = returnText.replace(/(?:(?:\r\n|\r|\n)\s*){2,}/gim, "\r\n\r\n");
+
+      //-- get rid of more than 2 spaces:
+      returnText = returnText.replace(/ +(?= )/g, '');
+
+      //-- get rid of html-encoded characters:
+      returnText = returnText.replace(/ /gi, " ");
+      returnText = returnText.replace(/&/gi, "&");
+      returnText = returnText.replace(/"/gi, '"');
+      returnText = returnText.replace(/</gi, '<');
+      returnText = returnText.replace(/>/gi, '>');
+
+      return returnText;
+    },
+    utils
+  }
+</script>
+
+<style lang="less">
+@import './static/styles/index.less';
+@import './static/styles/icon.less';
+@import './wxParse/wxParse.wxss';
+</style>

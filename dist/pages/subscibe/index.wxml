@@ -1,0 +1,5 @@
+<view>
+  <view wx:for="{{subList}}" wx:key="{{index}}">
+    <sub-item subItem="{{item}}" _pid="{{_pid}}"></sub-item>
+  </view>
+</view>

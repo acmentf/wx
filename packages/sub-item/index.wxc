@@ -1,0 +1,77 @@
+<template>
+  <view class="sub-item">
+    <view class="sub-title" bindtap="subDetail">
+        <view class="image">
+            <image src={{subItem.ding_pic}} mode="aspectFill"></image>
+        </view>
+        <text class="middle">{{subItem.ding_name}}</text>
+        <i class="iconfont icon-r"></i>
+    </view>
+    <view class="sub-content">
+        <view class="sub-list" >
+            <news-item newInfo={{subItem.ding_news[0]}}></news-item>
+        </view>
+    </view>
+   
+  </view>
+</template>
+<script>
+export default {
+  config:{
+    usingComponents: {
+        'news-item': '../../packages/news-item'
+    },
+  },
+  properties:{
+    subItem:{
+      type: Object,
+      default:{}
+    }
+  },
+  data: {
+  },
+  onShow(){
+   
+  },
+  methods: {
+    subDetail () {
+      let subItem = this.data.subItem
+      // 设置缓存
+      wx.setStorageSync('subInfo',{
+        name: subItem.ding_name,
+        pic: subItem.ding_pic,
+        remark: subItem.ding_remark
+      })
+      wx.navigateTo({
+        url:'/pages/subscibe/subList?chid='+subItem.ding_id
+      })
+    }
+  }
+}
+</script>
+<style lang="less">
+  .sub-item{
+    margin-bottom: 20rpx;
+    .sub-title{
+      display: flex;
+      padding: 20rpx;
+      border-bottom: 1px solid #eee;
+      .image{
+        width:40rpx;
+        height:40rpx;
+      }
+      .middle{
+        flex:1;
+        text-align: center;
+        font-size:30rpx;
+        font-weight: bold;
+      }
+      .iconfont{
+          width:20rpx;
+          height:20rpx;
+          display: inline-block;
+      }
+    }
+  }
+  @import '../../static/styles/icon.less';
+</style>

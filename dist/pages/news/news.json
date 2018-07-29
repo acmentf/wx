@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "ui-tabs": "../../packages/touchui-wx-components/ui-tabs/dist/index",
+    "ui-tab": "../../packages/touchui-wx-components/ui-tab/dist/index",
+    "news-item": "../../packages/news-item/index"
+  },
+  "navigationBarTitleText": "News Reader",
+  "backgroundColor": "#F4F4F4",
+  "navigationBarTextStyle": "black"
+}

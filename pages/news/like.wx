@@ -1,0 +1,137 @@
+<template>
+  <view id="like">
+      <view class="my-block">
+        <like-title title="我的频道" handleTex="点击删除频道"></like-title>
+        <view class="list my-list">
+          <view class="list all-list">
+            <span wx:for={{allCategorys}} wx:key={{item.lanmu_id}} wx:if={{item.selected}} bindtap="deteleItem" data-index={{index}}>{{item.lanmu_name}}</span>
+          </view>
+        </view>
+      </view>
+      <view class="list all-block">
+        <like-title title="全部频道" handleTex="点击增加频道"></like-title>
+        <view class="list all-list">
+          <span wx:for={{allCategorys}} wx:key={{item.lanmu_id}} class="{{item.selected?'selected':''}}" bindtap="addItem" data-index={{index}}>{{item.lanmu_name}}</span>
+        </view>
+      </view>
+      <view class="btns">
+        <button type="primary"  bindtap="selectAll">全部选择</button>
+        <button bindtap="backIndex">返回首页</button>
+      </view>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+//数据缓存
+
+export default {
+  config: {
+    usingComponents: {
+      'like-title': '../../packages/like-title'
+    },
+    navigationBarTitleText: "设置关注分类",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+ 
+  data :{
+    allCategorys: []
+  },
+  onLoad(){
+   
+  },
+  onShow(){
+    this.getAllCategorys();
+  },
+  // 获取全部栏目列表
+  getAllCategorys(){
+    app.utils.getCategorys().then(res=>{
+      this.setData({
+        allCategorys : res
+      })
+
+    })
+  },
+  // 切换栏目增加删除
+  add_detele_item(data,boolean){
+    let allCategorys = this.data.allCategorys;
+    let index = data.target.dataset.index;
+    allCategorys.forEach((item,i)=>{
+      if(index===i && index !==0){
+        item.selected = boolean;
+      }
+    })
+    this.setData({
+      allCategorys
+    },()=>{
+      // 存入缓存
+      let likeList = this.data.allCategorys.filter(item=> item.selected)
+      wx.setStorageSync('USER_COLLECT', likeList)
+    })
+  },
+  // 删除栏目
+  deteleItem(data){
+    this.add_detele_item(data,false)
+  },
+  // 增加栏目
+  addItem(data){
+    this.add_detele_item(data,true)
+  },
+  // 全部选择
+  selectAll(){
+     let allCategorys = this.data.allCategorys;
+     allCategorys.forEach(item=>{
+       item.selected = true
+     })
+     this.setData({
+       allCategorys
+     },()=>{
+       wx.setStorageSync('USER_COLLECT', this.data.allCategorys)
+     })
+  },
+  // 返回首页
+  backIndex(){
+    wx.navigateBack();
+  }
+};
+</script>
+
+<style lang="less">
+  #like{
+    padding: 0 30rpx;
+    &>view{
+      padding-top:20rpx;
+      min-height:300rpx;
+      .list{
+        padding:20rpx 0 40rpx 0;
+        display: flex;
+        flex-wrap:wrap;
+        
+        &>span{
+          border-radius: 8rpx;
+          font-size:24rpx;
+          text-align: center;
+          margin:10rpx 16rpx;
+          padding:10rpx 20rpx;
+        }
+        &.my-list{
+          span{
+            border:1px solid #ccc;
+            color:#ccc;
+          }
+        }
+         &.all-list{
+          span{
+            border:1px solid #ccc;
+            color:#ccc;
+            &.selected{
+              color:#d81e06;
+              border:1px solid #d81e06
+            }
+          }
+        }
+      }
+    }
+  }
+</style>

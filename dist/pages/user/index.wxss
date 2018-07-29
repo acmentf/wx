@@ -1,0 +1,37 @@
+/* 1像素解决方案 */
+/*
+ * 清除1px
+ */
+/*
+ * 清除浮动
+ */
+/*
+ * mobile
+ */
+/*
+ * 1px
+ */
+/*
+ * text
+ */
+/* 垂直居中 */
+/* 水平居中 */
+/* 水平垂直居中 */
+/* 超出部分出省略号 */
+/* 多行文本超出部分省略号 */
+.user {
+  text-align: center;
+  padding-top: 100rpx;
+}
+.user .user-pic {
+  width: 150rpx;
+  height: 150rpx;
+  margin: 0 auto;
+}
+.user .user-pic image {
+  border-radius: 50%;
+}
+.user text {
+  font-size: 38rpx;
+  color: #333;
+}

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "news-item": "../news-item/index"
+  },
+  "component": true
+}

@@ -1,0 +1,35 @@
+<view id="news">
+  <view class="tabs-wrap">
+    <view class="tabs-list" style="padding-left:30rpx;">
+      <ui-tabs index="{{ current }}" bounce="{{false}}" _pid="{{_pid}}">
+        <ui-tab wx:for="{{categorysList}}" wx:key="{{item.lanmu_id}}" data-chid="{{item.lanmu_id}}" bindtap="tabChange" wx:if="{{item.selected}}" _pid="{{_pid}}">{{item.lanmu_name}}</ui-tab>
+      </ui-tabs>
+    </view>
+    <view class="tabs-btn">
+      <icon class="iconfont icon-cate" bindtap="likeSelect"></icon>
+    </view>
+  </view>
+  <div>
+  </div>
+  <!-- 图片轮播 -->
+  <view class="swiper-container" wx:if="{{newsBanner.length}}">
+    <swiper circular autoplay interval="5000" duration="300" class="swiper">
+      <block wx:for="{{newsBanner}}" wx:key="unique">
+        <swiper-item>
+          <image src="{{item.news_icon[0]}}" class="img" mode="aspectFill" />
+          <view class="banner-footer">
+            <view class="bg"></view>
+            <view class="title">{{item.news_title}}</view>
+            <view class="current-num">[{{index+1}}/{{newsBanner.length}}]</view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 新闻列表 -->
+  <view class="news-list">
+    <view wx:for="{{newsList}}" wx:key="{{item.info_id}}">
+      <news-item newInfo="{{item}}" _pid="{{_pid}}"></news-item>
+    </view>
+  </view>
+</view>

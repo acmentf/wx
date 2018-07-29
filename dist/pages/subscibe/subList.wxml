@@ -1,0 +1,12 @@
+<view class="sub-list">
+  <view class="sub-header">
+    <view class="sub-pic">
+      <image mode="aspectFit" src="{{headerInfo.pic}}" />
+    </view>
+    <view class="name">{{headerInfo.name}}</view>
+    <text>{{headerInfo.remark}}</text>
+  </view>
+  <view wx:for="{{newList}}" wx:key="{{index}}">
+    <news-item newInfo="{{item}}" _pid="{{_pid}}"></news-item>
+  </view>
+</view>

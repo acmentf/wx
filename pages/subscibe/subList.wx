@@ -1,0 +1,111 @@
+<template>
+  <view class="sub-list">
+    <view class="sub-header">
+        <view class="sub-pic">
+            <image mode="aspectFit" src={{headerInfo.pic}}></image>
+        </view>
+         <view class="name">{{headerInfo.name}}</view>
+         <text>{{headerInfo.remark}}</text>
+    </view>
+    <view wx:for={{newList}} wx:key={{index}}>
+        <news-item newInfo={{item}}></news-item>
+    </view>
+  </view>
+</template>
+
+<script>
+const app = getApp();
+const cache = Object.create(null);
+export default {
+  config: {
+    usingComponents: {
+      'news-item': '../../packages/news-item'
+    },
+    navigationBarTitleText: "News Reader",
+    backgroundColor: "#F4F4F4",
+    navigationBarTextStyle: "black"
+  },
+  isLoading:false,
+  data :{
+    newList:[],
+    headerInfo:{},
+    chid:''
+  },
+  onLoad(option){
+    this.setData({
+        chid: option.chid
+    });
+    this.getSubList(option.chid,0);
+  },
+  onReachBottom(){
+    this.getSubList(this.data.chid,1)
+  },
+  onShow(){
+    this.setData({
+      headerInfo: wx.getStorageSync('subInfo')
+    })
+  },
+  //获取订阅列表
+  getSubList(chid=0,type=0){
+    if (!cache[chid]) {
+      cache[chid] = {slides:[],news:[],page:0,time:Date.now()}
+    }
+    var info = cache[chid];
+    if (type) {
+        //正在加载中 
+      if (this.isLoading) {
+        return false
+      }
+      info.page += 1;
+    } else {
+       // 直接从缓存中取出
+      if(info.news.length){
+          this.setData({
+              newsBanner:info.slides,
+              newList:info.news
+          })
+          return false
+      }
+    }
+    this.isLoading = true;
+
+    app.post('v2/news/list.html',{chid:chid,page:info.page}).then(res=>{
+         this.isLoading = false;
+         let data = res.data;
+         info.slides = data.newsBanner;
+         info.news.push(...data.newsList);
+         this.setData({
+            newList: info.news,
+            newsBanner: info.slides
+         })
+    })
+  }
+};
+</script>
+
+<style lang="less">
+    .sub-list{
+      .sub-header{
+        background-color:#d81e06;
+        background:linear-gradient(128deg, #1296DB 26%, #D4237A 71%, #D81E06 100%);
+        padding:20rpx 20rpx;
+        color:#fff;
+        text-align: center;
+        font-size:24rpx;
+        .sub-pic{
+          height:100rpx;
+          width:100rpx;
+          margin: 0 auto;
+          image{
+            border-radius: 50%;           
+          }
+        }
+        .name{
+          font-size:28rpx;
+        }
+        text{
+          padding:0 20rpx;
+        }
+      }
+    }
+</style>
